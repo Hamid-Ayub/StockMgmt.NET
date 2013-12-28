@@ -1,0 +1,40 @@
+﻿@model PTIStockMgmt.Models.active_assets
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>active_assets</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.asset_id)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.asset_id)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.location_id)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.location_id)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.quantity)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.quantity)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

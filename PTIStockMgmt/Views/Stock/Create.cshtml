@@ -1,0 +1,76 @@
+﻿@model PTIStockMgmt.Models.active_assets
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using(Html.BeginForm("Create", "Stock", null, FormMethod.Post, new {@class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Create New</legend>
+
+        <div class="control-group">
+          <label class="control-label">Asset Type</label>
+          <div class="controls">
+          <input type="text" placeholder="Start typing asset title..." id="asset_title" name="asset_title" autocomplete="off"/> Or 
+            @Html.TextBoxFor(model => model.asset_id, null, new {placeholder = "ID", @class = "", type = "text" })
+            @Html.ValidationMessageFor(model => model.asset_id)<br />
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Location</label>
+          <div class="controls">
+          <input type="text" placeholder="Start typing location" id="location_string" name="location_string" autocomplete="off"/> Or
+           @Html.TextBoxFor(model => model.location_id, null, new {placeholder = "ID", @class = "", type = "text" })
+           @Html.ValidationMessageFor(model => model.location_id)<br />
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Quantity</label>
+          <div class="controls">
+            @Html.TextBoxFor(model => model.quantity, null, new { placeholder = "Quantity", @class = "", type = "text" })
+            @Html.ValidationMessageFor(model => model.quantity)<br />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <input type="submit" class="btn btn-success" value="Create"/>
+          <a href="@Url.Action("Index")" class="btn">Cancel</a>
+        </div>
+
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+      var location2id = @Html.Raw(@ViewBag.location2id);
+      var asset2id = @Html.Raw(@ViewBag.asset2id);
+
+      $("#asset_title").change(function (){
+        $("#asset_id").val(asset2id[$("#asset_title").val()]);
+        $('form').validate().element("#asset_id");
+      });
+
+      $("#location_string").change(function (){
+        $("#location_id").val(location2id[$("#location_string").val()]);
+        $('form').validate().element("#location_id");
+      });
+
+      $('#asset_title').typeahead({
+        source: Object.keys(asset2id),
+        items: 4,
+      });
+
+      $('#location_string').typeahead({
+        source: Object.keys(location2id),
+        items: 4
+      });
+    </script>
+}

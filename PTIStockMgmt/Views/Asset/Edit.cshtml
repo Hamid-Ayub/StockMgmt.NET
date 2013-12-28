@@ -1,0 +1,59 @@
+﻿@model PTIStockMgmt.Models.asset
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using(Html.BeginForm("Edit","Asset",null,FormMethod.Post,new {@class="form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.id)
+  <fieldset>
+    <legend>Edit</legend>
+  <div class="control-group">
+    <label class="control-label">Title</label>
+    <div class="controls">
+      @Html.TextBoxFor(model => model.title, null, new { @class="", type="text" })
+      @Html.ValidationMessageFor(model => model.title)
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPrice">Price</label>
+    <div class="controls">
+      @Html.TextBoxFor(model => model.price, null, new { @class="", type="text" })
+      @Html.ValidationMessageFor(model => model.price)
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputWeight">Weight</label>
+    <div class="controls">
+      @Html.TextBoxFor(model => model.weight, null, new { @class="", type="text" })
+      @Html.ValidationMessageFor(model => model.weight)
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputVolume">Volume</label>
+    <div class="controls">
+      @Html.TextBoxFor(model => model.volume, null, new { @class="", type="text" })
+      @Html.ValidationMessageFor(model => model.volume)
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <input class="btn btn-info" type="submit" value="Save" />
+    <a href="@Url.Action("Index")" class="btn">Cancel</a>
+    <a href="@Url.Action("Delete")" class="btn">Delete</a>
+  </div>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('form').validate().form();
+      });
+    </script>
+}

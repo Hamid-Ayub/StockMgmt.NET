@@ -1,0 +1,50 @@
+﻿@model PTIStockMgmt.Models.user
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using(Html.BeginForm("Create","User",null,FormMethod.Post,new {@class="form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+   
+    <fieldset>
+        <legend>Create</legend>
+
+        <div class="control-group">
+          <label class="control-label">Username</label>
+          <div class="controls">
+            @Html.TextBoxFor(model => model.username, null, new { placeholder="Username", @class="", type="text" })
+            @Html.ValidationMessageFor(model => model.username)
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Password</label>
+          <div class="controls">
+            @Html.TextBoxFor(model => model.password, null, new {placeholder = "Password",  @class="", type="password" })
+            @Html.ValidationMessageFor(model => model.password)
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Email</label>
+          <div class="controls">
+            @Html.TextBoxFor(model => model.email, null, new {placeholder="Email",@class="", type="text" })
+            @Html.ValidationMessageFor(model => model.email)
+          </div>
+        </div>
+
+  <div class="form-actions">
+    <input class="btn btn-success" type="submit" value="Create" />
+    <a href="@Url.Action("Index")" class="btn">Cancel</a>
+  </div>
+      
+    </fieldset>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

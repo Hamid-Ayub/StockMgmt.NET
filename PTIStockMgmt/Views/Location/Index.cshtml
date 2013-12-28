@@ -1,0 +1,31 @@
+﻿@model IEnumerable<PTIStockMgmt.Models.location>
+
+@{
+    ViewBag.Title = "Index";
+}
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table table-bordered table-striped">
+    <tr>
+      <th>#</th>
+        <th>
+            Location String
+        </th>
+        <th>Actions</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+      <td>@Html.DisplayFor(modelItem => item.id)</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.location_string)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>
