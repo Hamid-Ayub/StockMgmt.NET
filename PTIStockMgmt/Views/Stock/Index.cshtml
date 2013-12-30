@@ -1,44 +1,45 @@
-﻿@model IEnumerable<PTIStockMgmt.Models.active_assets>
+﻿@model IEnumerable<PTIStockMgmt.Controllers.ActiveAssetViewModel>
 
 @{
-    ViewBag.Title = "Index";
+  ViewBag.Title = "Index";
 }
 
 <p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+  @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
 </p>
 <table class="table table-bordered table-striped">
-    <tr>
-        <th>#</th>
-        <th>
-            @Html.DisplayNameFor(model => model.asset_id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.location_id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.quantity)
-        </th>
-        <th>Actions</th>
-    </tr>
+  <tr>
+    <th>#</th>
+    <th>
+      Title
+    </th>
+    <th>
+      Location
+    </th>
+    <th>
+      Quantity
+    </th>
+    <th>Actions</th>
+  </tr>
 
-@foreach (var item in Model) {
+  @foreach (var item in Model)
+  {
     <tr>
       <td>@Html.DisplayFor(modelItem => item.id)</td>
-        <td>
-            #@Html.DisplayFor(modelItem => item.asset_id)<p class="muted">@ViewBag.AssetTitle</p>
-        </td>
-        <td>
-            #@Html.DisplayFor(modelItem => item.location_id)<p class="muted">@ViewBag.LocationString</p>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.quantity)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.title)<span class="muted"> (@Html.DisplayFor(modelItem => item.asset_id))</span>
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.location_string)<span class="muted"> (@Html.DisplayFor(modelItem => item.location_id))</span>
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.quantity)
+      </td>
+      <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.id })
+        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+      </td>
     </tr>
-}
+  }
 
 </table>

@@ -13,6 +13,8 @@
           <Property Name="asset_id" Type="int" Nullable="false" />
           <Property Name="location_id" Type="int" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="locked" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="assets">
           <Key>
@@ -23,6 +25,11 @@
           <Property Name="price" Type="int" Nullable="false" />
           <Property Name="weight" Type="int" Nullable="false" />
           <Property Name="volume" Type="int" Nullable="false" />
+          <Property Name="sap" Type="int" Nullable="false" />
+          <Property Name="comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="maker" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="links" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="locked" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="locations">
           <Key>
@@ -36,6 +43,8 @@
           <Property Name="street" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="number" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="suburub" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="locked" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="transaction">
           <Key>
@@ -56,10 +65,12 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="password" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
           <Property Name="joined" Type="datetime" Nullable="false" />
+          <Property Name="salt" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="online" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="StockModelStoreContainer">
           <EntitySet Name="active_assets" EntityType="Self.active_assets" Schema="dbo" store:Type="Tables" />
@@ -80,6 +91,8 @@
           <Property Name="asset_id" Type="Int32" Nullable="false" />
           <Property Name="location_id" Type="Int32" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="locked" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="asset">
           <Key>
@@ -90,6 +103,11 @@
           <Property Name="price" Type="Int32" Nullable="false" />
           <Property Name="weight" Type="Int32" Nullable="false" />
           <Property Name="volume" Type="Int32" Nullable="false" />
+          <Property Name="sap" Type="Int32" Nullable="false" />
+          <Property Name="comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="maker" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="links" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="locked" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="location">
           <Key>
@@ -103,6 +121,8 @@
           <Property Name="street" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="suburub" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="locked" Type="Int32" Nullable="false" />
+          <Property Name="comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="transaction">
           <Key>
@@ -123,10 +143,12 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="joined" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="salt" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
+          <Property Name="online" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="StockDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="active_assets" EntityType="Self.active_assets" />
@@ -144,6 +166,8 @@
           <EntitySetMapping Name="active_assets">
             <EntityTypeMapping TypeName="StockModel.active_assets">
               <MappingFragment StoreEntitySet="active_assets">
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="location_id" ColumnName="location_id" />
                 <ScalarProperty Name="asset_id" ColumnName="asset_id" />
@@ -154,6 +178,11 @@
           <EntitySetMapping Name="assets">
             <EntityTypeMapping TypeName="StockModel.asset">
               <MappingFragment StoreEntitySet="assets">
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="links" ColumnName="links" />
+                <ScalarProperty Name="maker" ColumnName="maker" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="sap" ColumnName="sap" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="price" ColumnName="price" />
@@ -165,6 +194,8 @@
           <EntitySetMapping Name="locations">
             <EntityTypeMapping TypeName="StockModel.location">
               <MappingFragment StoreEntitySet="locations">
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="location_string" ColumnName="location_string" />
                 <ScalarProperty Name="postcode" ColumnName="postcode" />
@@ -194,9 +225,11 @@
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="StockModel.user">
               <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="online" ColumnName="online" />
+                <ScalarProperty Name="salt" ColumnName="salt" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="joined" ColumnName="joined" />
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="email" ColumnName="email" />
               </MappingFragment>

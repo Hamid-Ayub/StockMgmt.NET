@@ -1,85 +1,92 @@
 ﻿@model PTIStockMgmt.Models.location
 
 @{
-    ViewBag.Title = "Edit";
+  ViewBag.Title = "Edit";
 }
 
 @using (Html.BeginForm("Edit", "Location", null, FormMethod.Post, new { @class = "form-horizontal" }))
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+  @Html.AntiForgeryToken()
+  @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Edit</legend>
+  <fieldset>
+    <legend>Edit</legend>
 
-        @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.id)
 
-        <div class="control-group">
-          <label class="control-label">Number</label>
-          <div class="controls">
-            @Html.TextBoxFor(model => model.number, null, new { id="number", placeholder = "Number", @class = "", type = "text" })
-            @Html.ValidationMessageFor(model => model.number)<br />
-          </div>
-        </div>
+    <div class="control-group">
+      <label class="control-label">Number</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.number, null, new { id = "number", placeholder = "Number", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.number)<br />
+      </div>
+    </div>
 
-        <div class="control-group">
-          <label class="control-label">Street</label>
-          <div class="controls">
-            @Html.TextBoxFor(model => model.street, null, new { placeholder = "Street", @class = "", type = "text" })
-            @Html.ValidationMessageFor(model => model.street)<br />
-          </div>
-        </div>
+    <div class="control-group">
+      <label class="control-label">Street</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.street, null, new { placeholder = "Street", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.street)<br />
+      </div>
+    </div>
 
-        <div class="control-group">
-          <label class="control-label">Suburb</label>
-          <div class="controls">
-            @Html.TextBoxFor(model => model.suburub, null, new { placeholder = "Suburb", @class = "", type = "text" })
-            @Html.ValidationMessageFor(model => model.suburub)<br />
-          </div>
-        </div>
+    <div class="control-group">
+      <label class="control-label">Suburb</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.suburub, null, new { placeholder = "Suburb", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.suburub)<br />
+      </div>
+    </div>
 
-        <div class="control-group">
-          <label class="control-label">Postcode</label>
-          <div class="controls">
-            @Html.TextBoxFor(model => model.postcode, null, new { placeholder = "Postcode", @class = "", type = "text" })
-            @Html.ValidationMessageFor(model => model.postcode)<br />
-          </div>
-        </div>
+    <div class="control-group">
+      <label class="control-label">Postcode</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.postcode, null, new { placeholder = "Postcode", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.postcode)<br />
+      </div>
+    </div>
 
-        <div class="control-group">
-          <label class="control-label">State</label>
-          <div class="controls">
-            @Html.TextBoxFor(model => model.state, null, new { placeholder = "State", @class = "", type = "text" })
-            @Html.ValidationMessageFor(model => model.state)<br />
-          </div>
-        </div>
+    <div class="control-group">
+      <label class="control-label">State</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.state, null, new { placeholder = "State", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.state)<br />
+      </div>
+    </div>
 
-        <div class="control-group">
-          <label class="control-label">Country</label>
-          <div class="controls">
-            @Html.TextBoxFor(model => model.country, null, new { placeholder = "Country", @class = "", type = "text" })
-            @Html.ValidationMessageFor(model => model.country)<br />
-          </div>
-        </div>
+    <div class="control-group">
+      <label class="control-label">Country</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.country, null, new { placeholder = "Country", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.country)<br />
+      </div>
+    </div>
 
-        <div class="control-group">
-          <label class="control-label">Location String</label>
-          <div class="controls">
-            @Html.TextBoxFor(model => model.location_string, null, new {placeholder = "Location String", @class = "input-block-level", type = "text" })
-            @Html.ValidationMessageFor(model => model.location_string)<br />
-          </div>
-        </div>
+    <div class="control-group">
+      <label class="control-label">Location String</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.location_string, null, new { placeholder = "Location String", @class = "input-block-level", type = "text" })
+        @Html.ValidationMessageFor(model => model.location_string)<br />
+      </div>
+    </div>
 
-        <div class="form-actions">
-          <input type="submit" class="btn btn-success" value="Save"/>
-          <a href="@Url.Action("Index")" class="btn">Cancel</a>
-        </div>
+    <div class="control-group">
+      <label class="control-label">Comment</label>
+      <div class="controls">
+        @Html.TextAreaFor(model => model.comment)
+        @Html.ValidationMessageFor(model => model.comment)
+      </div>
+    </div>
+    <div class="form-actions">
+      <input type="submit" class="btn btn-success" value="Save" />
+      <a href="@Url.Action("Index")" class="btn">Cancel</a>
+    </div>
 
-    </fieldset>
+  </fieldset>
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+  @Scripts.Render("~/bundles/jqueryval")
   <script type="text/javascript">
     function build_location() {
       return $('#number').val() + " " + $("#street").val() + ", " + $("#suburub").val() + ", " + $('#state').val() + " " + $('#postcode').val() + ", " + $("#country").val();

@@ -1,31 +1,40 @@
 ﻿@model IEnumerable<PTIStockMgmt.Models.location>
 
 @{
-    ViewBag.Title = "Index";
+  ViewBag.Title = "Index";
 }
 <p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+  @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
 </p>
 <table class="table table-bordered table-striped">
-    <tr>
-      <th>#</th>
-        <th>
-            Location String
-        </th>
-        <th>Actions</th>
-    </tr>
+  <tr>
+    <th>#</th>
+    <th>
+      Location String
+    </th>
+    <th>Actions</th>
+  </tr>
 
-@foreach (var item in Model) {
+  @foreach (var item in Model)
+  {
     <tr>
-      <td>@Html.DisplayFor(modelItem => item.id)</td>
-        <td>
-            @Html.DisplayFor(modelItem => item.location_string)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
+      <td><a href="@Url.Action("Edit", "Location", new {id=item.id})" class="tool" data-toggle="tooltip" title="@Html.DisplayFor(modelItem => item.comment)">@Html.DisplayFor(modelItem => item.id)</a></td>
+      <td>
+        @Html.DisplayFor(modelItem => item.location_string)
+      </td>
+      <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+      </td>
     </tr>
-}
+  }
 
 </table>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(function () {
+      $('.tool').tooltip();
+    });
+  </script>
+}

@@ -9,22 +9,33 @@
 
 namespace PTIStockMgmt.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    
-    public partial class active_assets
+  using System;
+  using System.Collections.Generic;
+  using System.ComponentModel.DataAnnotations;
+
+  public partial class active_assets
+  {
+    public active_assets()
     {
-        [Key]
-        public int id { get; set; }
-
-        [Required]
-        public int asset_id { get; set; }
-
-        [Required]
-        public int location_id { get; set; }
-
-        [Required]
-        public int quantity { get; set; }
+      locked = 0;
     }
+
+    [Key]
+    public int id { get; set; }
+
+    [Required]
+    public int asset_id { get; set; }
+
+    [Required]
+    public int location_id { get; set; }
+
+    [Required]
+    public int quantity { get; set; }
+
+    [DisplayFormat(ConvertEmptyStringToNull = false)]
+    public string comment { get; set; }
+
+    public int locked { get; set; }
+  }
+
 }

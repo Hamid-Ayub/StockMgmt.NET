@@ -9,26 +9,36 @@
 
 namespace PTIStockMgmt.Models
 {
-    using System;
-    using System.Collections.Generic;
+  using System;
+  using System.Collections.Generic;
   using System.ComponentModel.DataAnnotations;
-    
-    public partial class user
+
+  public partial class user
+  {
+    public user()
     {
-        [Key]
-        public int id { get; set; }
-
-        [Required]
-        public string username { get; set; }
-
-        [Required]
-        [MinLength(6)]
-        public string password { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string email { get; set; }
-
-        public System.DateTime joined { get; set; }
+      online = 0;
     }
+
+    [Key]
+    public int id { get; set; }
+
+    [Required]
+    public byte[] password { get; set; }
+
+    [Required]
+    [EmailAddress]
+    public string email { get; set; }
+
+    [Required]
+    public System.DateTime joined { get; set; }
+
+    [Required]
+    public string name { get; set; }
+
+    [Required]
+    public byte[] salt { get; set; }
+
+    public int online { get; set; }
+  }
 }

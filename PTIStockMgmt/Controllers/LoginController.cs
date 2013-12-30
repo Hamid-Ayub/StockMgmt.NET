@@ -7,63 +7,64 @@ using PTIStockMgmt.Models;
 
 namespace PTIStockMgmt.Controllers
 {
-    public class LoginController : Controller
+  public class LoginController : Controller
+  {
+    private StockDBEntities db = new StockDBEntities();
+
+    public ActionResult Index(string return_to = "")
     {
-        private StockDBEntities db = new StockDBEntities();
 
-        public ActionResult Index(string return_to = "")
-        {
+      if (return_to.Count() > 0)
+      {
+        ViewBag.return_to = return_to;
+      }
 
-          if (return_to.Count() > 0)
-          {
-            ViewBag.return_to = return_to;
-          }
+      return View();
+    }
 
-          return View();
-        }
+    // POST: /Login
+    [HttpPost]
+    public ActionResult Index(FormCollection value)
+    {
 
-        // POST: /Login
-        [HttpPost]
-        public ActionResult Index(FormCollection value)
-        {
+      string email = value["email"].ToString();
+      user usr = db.users.SingleOrDefault(u => u.email == email);
 
-          string username = value["username"].ToString();
-          user usr = db.users.SingleOrDefault(u => u.username == username);
+      if (usr == null)
+      {
+        ViewBag.Danger = "Incorrect Username or Password.";
+        return View(usr);
+      }
 
-          if (usr == null)
-          {
-            ViewBag.Danger = "Incorrect Username or Password.";
-            return View(usr);
-          }
 
-          if (usr.password != value["password"])
-          {
-            ViewBag.Danger = "Incorrect Username or Password.";
-            return View(usr);
-          }
+      if (!Crypto.ComparePassword(value["password"], usr.salt, usr.password))
+      {
+        ViewBag.Danger = "Incorrect Username or Password.";
+        return View(usr);
+      }
 
-          Session["logged_in"] = true;
+      Session["logged_in"] = true;
 
-          TempData["Success"] = "Logged in successfully.";
+      TempData["Success"] = "Logged in successfully.";
 
-          if (value["return_to"] != null && value["return_to"].Count() > 0)
-          {
-            return RedirectToAction("Index", value["return_to"]);
-          }
-          else
-          {
-            return RedirectToAction("Index", "Asset");
-          }
-
-        }
-
-        // GET: /Login/Logout
-        public ActionResult Logout()
-        {
-          Session["logged_in"] = false;
-          ViewBag.Success = "Logged out successfully.";
-          return View("Index");
-        }
+      if (value["return_to"] != null && value["return_to"].Count() > 0)
+      {
+        return RedirectToAction("Index", value["return_to"]);
+      }
+      else
+      {
+        return RedirectToAction("Index", "Asset");
+      }
 
     }
+
+    // GET: /Login/Logout
+    public ActionResult Logout()
+    {
+      Session["logged_in"] = false;
+      ViewBag.Success = "Logged out successfully.";
+      return View("Index");
+    }
+
+  }
 }

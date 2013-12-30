@@ -1,54 +1,67 @@
 ﻿@model IEnumerable<PTIStockMgmt.Models.asset>
 
 @{
-    ViewBag.Title = "Index";
+  ViewBag.Title = "Index";
 }
 
 <p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+  @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
 </p>
 <table class="table table-striped table-bordered">
-    <tr>
-        <th>
-            #
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.weight)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.volume)
-        </th>
-        <th>Actions</th>
-    </tr>
+  <tr>
+    <th>
+      #
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.title)
+    </th>
+    <th>
+      Manufacturer
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.price)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.weight)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.volume)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.sap)
+    </th>
+    <th>Actions</th>
+  </tr>
 
-@foreach (var item in Model) {
+  @foreach (var item in Model)
+  {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.weight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.volume)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.id)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.title)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.maker)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.price)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.weight)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.volume)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.sap)
+      </td>
+      <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+      </td>
     </tr>
-}
+  }
 
 </table>
