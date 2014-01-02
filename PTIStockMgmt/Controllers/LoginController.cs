@@ -53,7 +53,7 @@ namespace PTIStockMgmt.Controllers
       }
       else
       {
-        return RedirectToAction("Index", "Asset");
+        return RedirectToAction("Index", "Dash");
       }
 
     }
