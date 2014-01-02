@@ -19,6 +19,7 @@
     <th>
       Quantity
     </th>
+    <th>Due</th>
     <th>Actions</th>
   </tr>
 
@@ -35,8 +36,9 @@
       <td>
         @Html.DisplayFor(modelItem => item.quantity)
       </td>
+      <td>+10 on 2/1/2014</td>
       <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.id })
+        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
         @Html.ActionLink("Delete", "Delete", new { id = item.id })
       </td>
     </tr>
