@@ -129,16 +129,26 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AssemblyController.cs" />
     <Compile Include="Controllers\AssetController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\Crypto.cs" />
+    <Compile Include="Controllers\DashController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\active_assets.cs">
+      <DependentUpon>stockdb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\assembly.cs">
+      <DependentUpon>stockdb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\assembly_assets.cs">
       <DependentUpon>stockdb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\asset.cs">
@@ -305,6 +315,13 @@
     <Content Include="Views\Stock\Create.cshtml" />
     <Content Include="Views\Stock\Edit.cshtml" />
     <Content Include="Views\Stock\Delete.cshtml" />
+    <Content Include="Views\Assembly\Index.cshtml" />
+    <Content Include="Views\Assembly\Create.cshtml" />
+    <Content Include="Views\Assembly\Edit.cshtml" />
+    <Content Include="Views\Assembly\Delete.cshtml" />
+    <Content Include="Views\Dash\Index.cshtml" />
+    <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Clients\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -331,9 +348,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49289</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:80/</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:80/</IISAppRootUrl>
+          <IISUrl>http://localhost</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
