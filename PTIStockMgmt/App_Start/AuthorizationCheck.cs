@@ -12,23 +12,22 @@ namespace PTIStockMgmt
     public void OnAuthorization(AuthorizationContext filterContext)
     {
 
-
       if (filterContext.HttpContext.Request.Path.Contains("Login"))
       {
+        // Skip authorizaton check if at login screen
         return;
       }
 
+      var logged_in = filterContext.HttpContext.Session["logged_in"];
 
-      bool logged_in = false;
-
-      if(filterContext.HttpContext.Session["logged_in"] != null){
-        logged_in = (bool) filterContext.HttpContext.Session["logged_in"];
+      if (logged_in != null && (bool)logged_in == true)
+      {
+        // Logged in, allow user through
+        return;
       }
 
-      if (!logged_in) {
-        string return_to = filterContext.HttpContext.Request.Path.Split('/')[1];
-        //filterContext.Result = new RedirectToRouteResult("Default", new RouteValueDictionary{{"action", "Index"},{"controller", "Login"},{"return_to",return_to}});
-      }
+      string return_to = filterContext.HttpContext.Request.Path.Split('/')[1];
+      filterContext.Result = new RedirectToRouteResult("Default", new RouteValueDictionary{{"action", "Index"},{"controller", "Login"},{"return_to",return_to}});
 
     }
   }
