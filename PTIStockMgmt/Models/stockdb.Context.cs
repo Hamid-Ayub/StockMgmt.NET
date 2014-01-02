@@ -30,5 +30,7 @@ namespace PTIStockMgmt.Models
         public DbSet<location> locations { get; set; }
         public DbSet<transaction> transactions { get; set; }
         public DbSet<user> users { get; set; }
+        public DbSet<assembly> assemblies { get; set; }
+        public DbSet<assembly_assets> assembly_assets { get; set; }
     }
 }

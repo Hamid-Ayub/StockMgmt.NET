@@ -1,0 +1,99 @@
+﻿@model IEnumerable<PTIStockMgmt.Controllers.AssemblyAndAssetsModel>
+
+@{
+  ViewBag.Title = "Index";
+}
+<p>
+  @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>
+      #
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.assembly.name)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.assembly.retail)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.assembly.volume)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.assembly.weight)
+    </th>
+    <th>Available</th>
+    <th>
+      Assets
+    </th>
+    <th>Actions</th>
+  </tr>
+
+  @foreach (var item in Model)
+  {
+    <tr>
+      <td>
+        @Html.DisplayFor(modelItem => item.assembly.id)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.assembly.name)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.assembly.retail)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.assembly.volume)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.assembly.weight)
+      </td>
+      <td><span class="badge badge-success">1</span></td>
+      <td>
+        <button class="btn btn-info btn-mini toggleTable" data-toggle="button">Show/Hide</button>
+        <table class="table table-condensed table-bordered" style="display:none">
+          @foreach (var asset in item.assets)
+          {
+            <tr>
+              <td>
+                @asset.quantity
+                x
+              </td>
+              <td>
+                @asset.title
+              </td>
+              <td>
+                @asset.maker
+              </td>
+            </tr>
+          }
+
+        </table>
+      </td>
+      <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.assembly.id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.assembly.id })
+      </td>
+    </tr>
+  }
+
+</table>
+
+
+@section Scripts {
+  <script type="text/javascript">
+
+    $(new function () {
+
+      $('button.toggleTable').click(function () {
+
+        var button = $(this);
+
+        var table = button.parent().parent().find('table');
+
+        table.toggle();
+
+      });
+    });
+  </script>
+}

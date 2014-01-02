@@ -1,0 +1,203 @@
+﻿@model PTIStockMgmt.Controllers.AssembleViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row">
+  <div class="span6">
+@using (Html.BeginForm("Edit", "Assembly", null, FormMethod.Post, new { @class = "form-horizontal" })) {
+
+    <fieldset>
+        <legend>Edit</legend>
+
+    <div class="control-group">
+      <label class="control-label">Title</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.assembly.name, null, new { placeholder = "Title", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.assembly.name)<br />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Parent</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.assembly.parent, null, new { placeholder = "Parent", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.assembly.parent)<br />
+      </div>
+    </div>
+      
+    <div class="control-group">
+      <label class="control-label">Tags</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.assembly.tags, null, new { placeholder = "Tags, Comma Seperated", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.assembly.tags)<br />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Retail Price</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.assembly.retail, null, new { placeholder = "Retail Price", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.assembly.retail)<br />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Wholesale Price</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.assembly.wholesale, null, new { placeholder = "Wholesale Price", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.assembly.wholesale)<br />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Volume</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.assembly.volume, null, new { placeholder = "Volume", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.assembly.volume)<br />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Weight</label>
+      <div class="controls">
+        @Html.TextBoxFor(model => model.assembly.weight, null, new { placeholder = "Weight", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.assembly.weight)<br />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Comment</label>
+      <div class="controls">
+        @Html.TextAreaFor(model => model.assembly.comment)
+        @Html.ValidationMessageFor(model => model.assembly.comment)
+      </div>
+    </div>
+
+        <input id="tally_field" type="hidden" name="assembly.assets" value="{}" />
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.assembly.id)
+
+    <div class="form-actions">
+      <a class="btn btn-success" href="#" onclick="$('form').submit();">Save</a>
+      <a href="@Url.Action("Index")" class="btn btn-info">Cancel</a>
+      <a href="@Url.Action("Delete",new { id = @Html.DisplayFor(model => model.assembly.id)})" class="btn btn-danger">Delete</a>
+    </div>
+    </fieldset>
+}
+  </div>
+  <div class="span6">
+    <fieldset>
+      <legend>Assets</legend>
+<table class="table table-bordered table-condensed">
+  <tr>
+    <th>
+      Quantity
+    </th>
+    <th>
+      title
+    </th>
+    <th>
+      Manufacturer
+    </th>
+    <th>
+      SAP
+    </th>
+  </tr>
+
+  @foreach (var item in Model.assets)
+  {
+    <tr class="clickableRow">
+      <td>
+        <div class="input-append" style="margin:0">
+          <input class="input-mini" type="text" style="margin-bottom:0px;" value="0" id="@Html.DisplayFor(modelItem => item.id)"/>
+          <button class="btn more"><i class="icon icon-chevron-up"></i></button>
+          <button class="btn less"><i class="icon icon-chevron-down"></i></button>
+        </div>
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.title)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.maker)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.sap)
+      </td>
+    </tr>
+  }
+  </table>
+    </fieldset>
+  </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+  <script type="text/javascript">
+
+    var asset_tally = @Html.Raw(@ViewBag.assetinfo) ;
+
+    
+    jQuery(document).ready(function ($) {
+
+      for(key in asset_tally){
+        $('#' + key).val(asset_tally[key]);
+      }
+
+      $('form').validate().form();
+
+      $("input").change(function () {
+
+        var input = $(this);
+        var row = input.parent().parent().parent();
+        var quantity = parseInt(input.val());
+        var id = parseInt(input.attr('id'));
+
+        if (quantity < 0) {
+          row.addClass('error');
+        } else if (quantity == 0) {
+          delete asset_tally[id];
+          row.removeClass("success");
+          row.removeClass("error");
+        } else {
+          if (!isNaN(id)) {
+            asset_tally[id] = quantity;
+          }
+          row.addClass("success");
+          row.removeClass("error");
+        }
+
+        $('#tally_field').val(JSON.stringify(asset_tally, null, 1));
+
+      });
+
+      $(".less").click(function () {
+
+        var button = $(this);
+
+        var input = button.parent().parent().parent().find('input');
+
+        if (parseInt(input.val()) > 0) {
+          input.val(parseInt(input.val()) - 1).change();
+        }
+
+      });
+
+      $(".more").click(function () {
+
+        var button = $(this);
+
+        var input = button.parent().parent().parent().find('input');
+
+        input.val(parseInt(input.val()) + 1).change();
+
+      });
+
+      $('table input').change();
+
+    });
+  </script>
+}

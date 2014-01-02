@@ -5,11 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@ViewBag.Title</title>
   <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
+  <style type="text/css">
+    body { padding-top: 50px; }
+  </style>
   <link href="@Url.Content("~/Content/bootstrap-responsive.min.css")" rel="stylesheet">
   @Scripts.Render("~/bundles/modernizr")
-  <style>@RenderSection("styles", required: false)</style>
+  <style type="text/css">@RenderSection("styles", required: false)</style>
 </head>
-<body style="padding-top:50px;">
+<body>
   <div class="container">
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -22,10 +25,12 @@
           </a>
 
           <img class="logo" style="float:left" src="@Url.Content("~/img/logo40.png")" />
-          <a class="brand" href="/Home">Stock Management</a>
+          <a class="brand" href="/">PTI Stock</a>
           <div style="height: 0px;" class="nav-collapse navbar-responsive-collapse collapse">
             <ul class="nav">
               <li id="Dash_nav"><a href="/Dash">Dash</a></li>
+              <li id="Sales_nav"><a href="/Sales">Sales</a></li>
+              <li id="Clients_nav"><a href="/Clients">Clients</a></li>
               <li id="Asset_nav"><a href="/Asset">Assets</a></li>
               <li id="Stock_nav"><a href="/Stock">Stock</a></li>
               <li id="Assembly_nav"><a href="/Assembly">Assemblies</a></li>
@@ -83,6 +88,11 @@
   @RenderSection("scripts", required: false)
   <script type="text/javascript">
     var base = window.location.pathname.split('/')[1];
+
+    if (base.length == 0) {
+      base = "Dash"
+    }
+
     var navid = "#" + base + "_nav";
     $(navid).addClass("active");
   </script>

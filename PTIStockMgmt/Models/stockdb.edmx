@@ -16,6 +16,31 @@
           <Property Name="comment" Type="nvarchar(max)" Nullable="false" />
           <Property Name="locked" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="assemblies">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="locked" Type="int" Nullable="false" />
+          <Property Name="retail" Type="int" Nullable="false" />
+          <Property Name="wholesale" Type="int" Nullable="false" />
+          <Property Name="volume" Type="int" Nullable="false" />
+          <Property Name="weight" Type="int" Nullable="false" />
+          <Property Name="tags" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="parent" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="assembly_assets">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="assembly_id" Type="int" Nullable="false" />
+          <Property Name="asset_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="comment" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="assets">
           <Key>
             <PropertyRef Name="id" />
@@ -74,6 +99,8 @@
         </EntityType>
         <EntityContainer Name="StockModelStoreContainer">
           <EntitySet Name="active_assets" EntityType="Self.active_assets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="assemblies" EntityType="Self.assemblies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="assembly_assets" EntityType="Self.assembly_assets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="assets" EntityType="Self.assets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="locations" EntityType="Self.locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transaction" EntityType="Self.transaction" Schema="dbo" store:Type="Tables" />
@@ -156,7 +183,34 @@
           <EntitySet Name="locations" EntityType="Self.location" />
           <EntitySet Name="transactions" EntityType="Self.transaction" />
           <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="assemblies" EntityType="StockModel.assembly" />
+          <EntitySet Name="assembly_assets" EntityType="StockModel.assembly_assets" />
         </EntityContainer>
+        <EntityType Name="assembly">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="locked" Type="Int32" Nullable="false" />
+          <Property Name="retail" Type="Int32" Nullable="false" />
+          <Property Name="wholesale" Type="Int32" Nullable="false" />
+          <Property Name="volume" Type="Int32" Nullable="false" />
+          <Property Name="weight" Type="Int32" Nullable="false" />
+          <Property Name="tags" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="parent" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="assembly_assets">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="assembly_id" Type="Int32" Nullable="false" />
+          <Property Name="asset_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -232,6 +286,33 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="assemblies">
+            <EntityTypeMapping TypeName="StockModel.assembly">
+              <MappingFragment StoreEntitySet="assemblies">
+                <ScalarProperty Name="parent" ColumnName="parent" />
+                <ScalarProperty Name="tags" ColumnName="tags" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="volume" ColumnName="volume" />
+                <ScalarProperty Name="wholesale" ColumnName="wholesale" />
+                <ScalarProperty Name="retail" ColumnName="retail" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="assembly_assets">
+            <EntityTypeMapping TypeName="StockModel.assembly_assets">
+              <MappingFragment StoreEntitySet="assembly_assets">
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="asset_id" ColumnName="asset_id" />
+                <ScalarProperty Name="assembly_id" ColumnName="assembly_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

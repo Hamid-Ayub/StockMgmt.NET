@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<p>
+  @Html.ActionLink("Declare Order", "Create", null, new { @class = "btn btn-success" })
+  @Html.ActionLink("Declare Past Order", "Create", null, new { @class = "btn btn-info" })
+  <a href="#" class="btn pull-right"><i class="icon icon-print"></i> Print</a>
+</p>
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>
+      #
+    </th>
+    <th>
+     Client
+    </th>
+    <th>
+      PO #
+    </th>
+    <th>
+      Shipping Status
+    </th>
+    <th>
+      Paid Status
+    </th>
+    <th>
+      Sales
+    </th>
+    <th>Actions</th>
+  </tr>
+    <tr>
+      <td>
+        1
+      </td>
+      <td>
+        <a href="#">BHP Boddington</a>
+      </td>
+      <td>
+        <a href="#"><i class="icon icon-file"></i> PO 10231</a>
+      </td>
+      <td>
+        <span class="badge badge-info">Shipped...</span>
+      </td>
+      <td>
+        <span class="badge badge-important">Unpaid</span>
+      </td>
+      <td>
+        $2000.00
+      </td>
+      <td>
+        <a href="Edit"><i class="icon icon-edit"></i> Edit</a> |
+        <a href="Delete"><i class="icon icon-trash"></i> Delete</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        1
+      </td>
+      <td>
+        <a href="#">Rio Hennecott</a>
+      </td>
+      <td>
+        <a href="#"><i class="icon icon-file"></i> PO 93911</a>
+      </td>
+      <td>
+        <span class="badge badge-success">Delivered</span>
+      </td>
+      <td>
+        <span class="badge badge-success">Paid</span>
+      </td>
+      <td>
+        $2000.00
+      </td>
+      <td>
+        <a href="Edit"><i class="icon icon-edit"></i> Edit</a> |
+        <a href="Delete"><i class="icon icon-trash"></i> Delete</a>
+      </td>
+    </tr>
+
+</table>

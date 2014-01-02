@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<p>
+  @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>
+      #
+    </th>
+    <th>
+     Company
+    </th>
+    <th>
+      Contact
+    </th>
+    <th>
+      Pending
+    </th>
+    <th>
+      Address
+    </th>
+    <th>
+      Sales
+    </th>
+    <th>Actions</th>
+  </tr>
+
+    <tr>
+      <td>
+        1
+      </td>
+      <td>
+        BHP Boddington
+      </td>
+      <td>
+        P: (07) 8392 2929<br />
+        mailto:contact@bhp.com
+      </td>
+      <td>
+       <a href="#"><span class="badge badge-warning">2</span> Orders </a>
+      </td>
+      <td>
+        <address>
+          <strong>BHP Boddington</strong><br />
+        1 Technology Court<br /> Pullenvale 4069<br /> QLD Australia
+        </address>
+      </td>
+      <td>
+        <span class="badge badge-success">1</span> SmartEar<br />
+        <span class="badge badge-success">2</span> SmartTag
+      </td>
+      <td>
+        @Html.ActionLink("Edit", "Edit") |
+        @Html.ActionLink("Delete", "Delete")
+      </td>
+    </tr>
+
+</table>
