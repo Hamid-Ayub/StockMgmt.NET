@@ -1,4 +1,5 @@
 ﻿@model PTIStockMgmt.Models.asset
+@using PTIStockMgmt.Helpers
 
 @{
   ViewBag.Title = "Create";
@@ -11,13 +12,7 @@
   <fieldset>
     <legend>Create New</legend>
 
-    <div class="control-group">
-      <label class="control-label">Title</label>
-      <div class="controls">
-        @Html.TextBoxFor(model => model.title, null, new { placeholder = "Title", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.title)<br />
-      </div>
-    </div>
+    @Html.FormGroup(model => model.title, "Title")
 
     <div class="control-group">
       <label class="control-label">Manufacturer</label>
@@ -60,25 +55,12 @@
       </div>
     </div>
 
-    <div class="control-group">
-      <label class="control-label">SAP</label>
-      <div class="controls">
-        @Html.TextBoxFor(model => model.sap, null, new { placeholder = "SAP", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.sap)
-      </div>
-    </div>
-
-    <div class="control-group">
-      <label class="control-label">Comment</label>
-      <div class="controls">
-        @Html.TextAreaFor(model => model.comment)
-        @Html.ValidationMessageFor(model => model.comment)
-      </div>
-    </div>
+    @Html.FormGroup(model => model.sap, "SAP")
+    @Html.FormGroup(model => model.comment, "Comment")
 
     <div class="form-actions">
-      <input type="submit" class="btn btn-success" value="Create" />
-      <a href="@Url.Action("Index")" class="btn">Cancel</a>
+      @Html.Submit()
+      @Html.Cancel()
     </div>
   </fieldset>
 }

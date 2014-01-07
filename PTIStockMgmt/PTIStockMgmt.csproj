@@ -134,6 +134,7 @@
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\Crypto.cs" />
     <Compile Include="Controllers\DashController.cs" />
+    <Compile Include="Controllers\FormHelper.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -272,6 +273,7 @@
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\stockmgmt_utils.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

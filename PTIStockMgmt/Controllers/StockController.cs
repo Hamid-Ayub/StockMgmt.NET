@@ -5,7 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PTIStockMgmt.Models;
+using PTIStockMgmt;
 using Newtonsoft.Json.Linq;
 
 namespace PTIStockMgmt.Controllers
@@ -24,7 +24,7 @@ namespace PTIStockMgmt.Controllers
 
   public class StockController : Controller
   {
-    private StockDBEntities db = new StockDBEntities();
+    private Models.StockDBEntities db = new Models.StockDBEntities();
 
     public ActionResult Index()
     {
@@ -45,7 +45,7 @@ namespace PTIStockMgmt.Controllers
                      location_string = location.location_string,
                      asset_id = type.id,
                      title = type.title
-                   }).ToList();
+                   });
 
       return View(stock);
     }
@@ -77,7 +77,7 @@ namespace PTIStockMgmt.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(active_assets active_assets)
+    public ActionResult Create(Models.active_assets active_assets)
     {
       if (ModelState.IsValid)
       {
@@ -91,39 +91,35 @@ namespace PTIStockMgmt.Controllers
 
     public ActionResult Edit(int id = 0)
     {
-      active_assets active_assets = db.active_assets.Find(id);
+      Models.active_assets active_assets = db.active_assets.Find(id);
+
       if (active_assets == null)
       {
         return HttpNotFound();
       }
 
-      var locations = (from dl in db.locations select dl).ToList();
-      var assets = (from da in db.assets select da).ToList();
-
       JObject location2id = new JObject();
-
-      for (int i = 0; i < locations.Count(); i++)
+      foreach (var location in db.locations.ToList())
       {
-        location2id[locations[i].location_string] = locations[i].id;
+        location2id[location.location_string] = location.id;
       }
 
       JObject asset2id = new JObject();
-      for (int i = 0; i < locations.Count(); i++)
-      {
-        asset2id[assets[i].title] = assets[i].id;
+      foreach(var assetd in db.assets.ToList()){
+        asset2id[assetd.title] = assetd.id;
       }
 
       ViewBag.location2id = location2id;
       ViewBag.asset2id = asset2id;
-      ViewBag.location = (from lo in db.locations where lo.id == active_assets.location_id select lo.location_string).FirstOrDefault().ToString();
-      ViewBag.asset = (from ass in db.assets where ass.id == active_assets.asset_id select ass.title).FirstOrDefault().ToString();
+      ViewBag.location = db.locations.Where(location => location.id == active_assets.location_id).FirstOrDefault().location_string;
+      ViewBag.asset = db.assets.Where(asset => asset.id == active_assets.id).FirstOrDefault().title;
 
       return View(active_assets);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(active_assets active_assets)
+    public ActionResult Edit(PTIStockMgmt.Models.active_assets active_assets)
     {
       if (ModelState.IsValid)
       {
@@ -136,7 +132,7 @@ namespace PTIStockMgmt.Controllers
 
     public ActionResult Delete(int id = 0)
     {
-      active_assets active_assets = db.active_assets.Find(id);
+      PTIStockMgmt.Models.active_assets active_assets = db.active_assets.Find(id);
       if (active_assets == null)
       {
         return HttpNotFound();
@@ -148,7 +144,7 @@ namespace PTIStockMgmt.Controllers
     [ValidateAntiForgeryToken]
     public ActionResult DeleteConfirmed(int id)
     {
-      active_assets active_assets = db.active_assets.Find(id);
+      Models.active_assets active_assets = db.active_assets.Find(id);
       db.active_assets.Remove(active_assets);
       db.SaveChanges();
       return RedirectToAction("Index");

@@ -12,11 +12,14 @@ using Newtonsoft.Json.Linq;
 namespace PTIStockMgmt.Controllers
 {
 
+  // extension to assembly model to componesate for assembly_asset relation
   public class AssembleRegisterModel : Models.assembly
   {
+    // JSON obj key('asset_id') => value('quantity')
     public string assets { get; set; }
   }
 
+  // View of related assembly_assets for each assembly
   public class AssemblyAssetsQuantityModel
   {
     public string title { get; set; }
@@ -31,12 +34,6 @@ namespace PTIStockMgmt.Controllers
     public IEnumerable<AssemblyAssetsQuantityModel> assets { get; set; }
   }
 
-  public class AssembleViewModel
-  {
-    public List<Models.asset> assets { get; set; }
-    public Models.assembly assembly { get; set; }
-  }
-
   public class AssemblyController : Controller
   {
     private Models.StockDBEntities db = new Models.StockDBEntities();
@@ -47,36 +44,33 @@ namespace PTIStockMgmt.Controllers
       ViewBag.Danger = TempData["Danger"];
       ViewBag.Info = TempData["Info"];
 
-      var assemblies = (from a in db.assemblies
+      // Grab all assemblies together with each assemblies asset list
+      var assemblies = (from assembly in db.assemblies
                         select new AssemblyAndAssetsModel
                         {
-                          assembly = a
-                        }).ToList();
-
-      for (int i = 0; i < assemblies.Count(); i++)
-      {
-        int id = assemblies[i].assembly.id;
-        var list = (from aa in db.assembly_assets
-                    join ass in db.assets
-                    on aa.asset_id equals ass.id
-                    where aa.assembly_id == id
-                    select new AssemblyAssetsQuantityModel
-                    {
-                      title = ass.title,
-                      sap = ass.sap,
-                      maker = ass.maker,
-                      quantity = aa.quantity,
-                    }
-                    ).ToList();
-        assemblies[i].assets = list;
-      }
+                          assembly = assembly,
+                          assets = (from aa in db.assembly_assets
+                                    join asset in db.assets
+                                    on aa.asset_id equals asset.id
+                                    where aa.assembly_id == assembly.id
+                                    select new AssemblyAssetsQuantityModel
+                                    {
+                                      title = asset.title,
+                                      sap = asset.sap,
+                                      maker = asset.maker,
+                                      quantity = aa.quantity,
+                                    })
+                        });
 
       return View(assemblies);
     }
 
     public ActionResult Create()
     {
-      return View(new AssembleViewModel { assets = (from a in db.assets select a).ToList() });
+      ViewBag.assetinfo = "{}";
+      ViewBag.assets = db.assets.ToList();
+
+      return View();
     }
 
     [HttpPost]
@@ -86,39 +80,24 @@ namespace PTIStockMgmt.Controllers
       if (ModelState.IsValid)
       {
 
-        Models.assembly new_assembly = new Models.assembly
-        {
-          name = assembly.name,
-          comment = assembly.comment,
-          tags = assembly.tags,
-          parent = assembly.parent,
-          weight = assembly.weight,
-          volume = assembly.volume,
-          retail = assembly.retail,
-          wholesale = assembly.wholesale
-        };
-
+        Models.assembly new_assembly = new Models.assembly(assembly);
         db.assemblies.Add(new_assembly);
         db.SaveChanges();
 
-        JObject components = JObject.Parse(assembly.assets);
-
-        foreach (var prop in components)
+        JObject assets = JObject.Parse(assembly.assets);
+        foreach (var asset in assets)
         {
-          db.assembly_assets.Add(new Models.assembly_assets
-          {
-            assembly_id = new_assembly.id,
-            asset_id = int.Parse(prop.Key),
-            quantity = (int)prop.Value,
-            comment = ""
-          });
-
+          db.assembly_assets.Add(new Models.assembly_assets(new_assembly.id, int.Parse(asset.Key), (int) asset.Value, ""));
         }
         db.SaveChanges();
+
         return RedirectToAction("Index");
       }
 
-      return View(new AssembleViewModel { assets = (from a in db.assets select a).ToList() });
+      ViewBag.assetinfo = assembly.assets;
+      ViewBag.assets = db.assets.ToList();
+
+      return View(assembly);
     }
 
     //
@@ -133,18 +112,19 @@ namespace PTIStockMgmt.Controllers
         return HttpNotFound();
       }
 
-      var assets = (from a in db.assembly_assets where a.assembly_id == assembly.id select a).ToList();
+      var assets = db.assembly_assets.Where(aa => aa.assembly_id == assembly.id);
 
-      JObject obj = new JObject();
+      JObject quantity_obj = new JObject();
 
-      for (int i = 0; i < assets.Count; i++)
+      foreach (var asset in assets)
       {
-        obj[assets[i].asset_id.ToString()] = assets[i].quantity;
+        quantity_obj[asset.asset_id.ToString()] = asset.quantity;
       }
 
-      ViewBag.assetinfo = obj;
+      ViewBag.assetinfo = quantity_obj;
+      ViewBag.assets = db.assets.ToList();
 
-      return View(new AssembleViewModel { assets = (from a in db.assets select a).ToList(), assembly = assembly });
+      return View(assembly);
     }
 
     //
@@ -157,42 +137,19 @@ namespace PTIStockMgmt.Controllers
       if (ModelState.IsValid)
       {
 
-        Models.assembly new_assembly = new Models.assembly
-        {
-          id = assembly.id,
-          name = assembly.name,
-          comment = assembly.comment,
-          tags = assembly.tags,
-          parent = assembly.parent,
-          weight = assembly.weight,
-          volume = assembly.volume,
-          retail = assembly.retail,
-          wholesale = assembly.wholesale
-        };
-
+        Models.assembly new_assembly = new Models.assembly(assembly);
         db.Entry(new_assembly).State = EntityState.Modified;
 
-
-        var delete_query = from aa in db.assembly_assets where aa.assembly_id == assembly.id select aa;
-
-        foreach (var row in delete_query)
+        foreach (var row in db.assembly_assets.Where(aa => aa.assembly_id == assembly.id))
         {
           db.assembly_assets.Remove(row);
         }
-
-        db.SaveChanges();
 
         JObject components = JObject.Parse(assembly.assets);
 
         foreach (var prop in components)
         {
-          db.assembly_assets.Add(new Models.assembly_assets
-          {
-            assembly_id = assembly.id,
-            asset_id = int.Parse(prop.Key),
-            quantity = (int)prop.Value,
-            comment = ""
-          });
+          db.assembly_assets.Add(new Models.assembly_assets ( assembly.id, int.Parse(prop.Key), (int)prop.Value,  "" ));
 
         }
         db.SaveChanges();
@@ -201,8 +158,9 @@ namespace PTIStockMgmt.Controllers
       }
 
       ViewBag.assetinfo = assembly.assets;
+      ViewBag.assets = db.assets.ToList();
 
-      return View(new AssembleViewModel { assets = (from a in db.assets select a).ToList(), assembly = assembly });
+      return View(assembly);
     }
 
     //

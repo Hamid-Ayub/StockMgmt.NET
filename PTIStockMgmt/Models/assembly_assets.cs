@@ -15,6 +15,18 @@ namespace PTIStockMgmt.Models
 
   public partial class assembly_assets
   {
+
+    public assembly_assets() { }
+
+    public assembly_assets(int assembly_id, int asset_id, int quantity, string comment){
+
+      this.asset_id = asset_id;
+      this.assembly_id = assembly_id;
+      this.quantity = quantity;
+      this.comment = comment;
+      
+    }
+
     [Key]
     public int id { get; set; }
 

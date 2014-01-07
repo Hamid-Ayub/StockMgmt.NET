@@ -1,4 +1,4 @@
-﻿@model PTIStockMgmt.Controllers.AssembleViewModel
+﻿@model PTIStockMgmt.Models.assembly
 
 @{
     ViewBag.Title = "Edit";
@@ -14,77 +14,77 @@
     <div class="control-group">
       <label class="control-label">Title</label>
       <div class="controls">
-        @Html.TextBoxFor(model => model.assembly.name, null, new { placeholder = "Title", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.assembly.name)<br />
+        @Html.TextBoxFor(model => model.name, null, new { placeholder = "Title", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.name)<br />
       </div>
     </div>
 
     <div class="control-group">
       <label class="control-label">Parent</label>
       <div class="controls">
-        @Html.TextBoxFor(model => model.assembly.parent, null, new { placeholder = "Parent", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.assembly.parent)<br />
+        @Html.TextBoxFor(model => model.parent, null, new { placeholder = "Parent", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.parent)<br />
       </div>
     </div>
       
     <div class="control-group">
       <label class="control-label">Tags</label>
       <div class="controls">
-        @Html.TextBoxFor(model => model.assembly.tags, null, new { placeholder = "Tags, Comma Seperated", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.assembly.tags)<br />
+        @Html.TextBoxFor(model => model.tags, null, new { placeholder = "Tags, Comma Seperated", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.tags)<br />
       </div>
     </div>
 
     <div class="control-group">
       <label class="control-label">Retail Price</label>
       <div class="controls">
-        @Html.TextBoxFor(model => model.assembly.retail, null, new { placeholder = "Retail Price", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.assembly.retail)<br />
+        @Html.TextBoxFor(model => model.retail, null, new { placeholder = "Retail Price", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.retail)<br />
       </div>
     </div>
 
     <div class="control-group">
       <label class="control-label">Wholesale Price</label>
       <div class="controls">
-        @Html.TextBoxFor(model => model.assembly.wholesale, null, new { placeholder = "Wholesale Price", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.assembly.wholesale)<br />
+        @Html.TextBoxFor(model => model.wholesale, null, new { placeholder = "Wholesale Price", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.wholesale)<br />
       </div>
     </div>
 
     <div class="control-group">
       <label class="control-label">Volume</label>
       <div class="controls">
-        @Html.TextBoxFor(model => model.assembly.volume, null, new { placeholder = "Volume", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.assembly.volume)<br />
+        @Html.TextBoxFor(model => model.volume, null, new { placeholder = "Volume", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.volume)<br />
       </div>
     </div>
 
     <div class="control-group">
       <label class="control-label">Weight</label>
       <div class="controls">
-        @Html.TextBoxFor(model => model.assembly.weight, null, new { placeholder = "Weight", @class = "", type = "text" })
-        @Html.ValidationMessageFor(model => model.assembly.weight)<br />
+        @Html.TextBoxFor(model => model.weight, null, new { placeholder = "Weight", @class = "", type = "text" })
+        @Html.ValidationMessageFor(model => model.weight)<br />
       </div>
     </div>
 
     <div class="control-group">
       <label class="control-label">Comment</label>
       <div class="controls">
-        @Html.TextAreaFor(model => model.assembly.comment)
-        @Html.ValidationMessageFor(model => model.assembly.comment)
+        @Html.TextAreaFor(model => model.comment)
+        @Html.ValidationMessageFor(model => model.comment)
       </div>
     </div>
 
-        <input id="tally_field" type="hidden" name="assembly.assets" value="{}" />
+        <input id="tally_field" type="hidden" name="assets" value="{}" />
 
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    @Html.HiddenFor(model => model.assembly.id)
+    @Html.HiddenFor(model => model.id)
 
     <div class="form-actions">
       <a class="btn btn-success" href="#" onclick="$('form').submit();">Save</a>
       <a href="@Url.Action("Index")" class="btn btn-info">Cancel</a>
-      <a href="@Url.Action("Delete",new { id = @Html.DisplayFor(model => model.assembly.id)})" class="btn btn-danger">Delete</a>
+      <a href="@Url.Action("Delete",new { id = @Html.DisplayFor(model => model.id)})" class="btn btn-danger">Delete</a>
     </div>
     </fieldset>
 }
@@ -108,24 +108,24 @@
     </th>
   </tr>
 
-  @foreach (var item in Model.assets)
+  @foreach (var item in ViewBag.assets)
   {
     <tr class="clickableRow">
       <td>
         <div class="input-append" style="margin:0">
-          <input class="input-mini" type="text" style="margin-bottom:0px;" value="0" id="@Html.DisplayFor(modelItem => item.id)"/>
+          <input class="input-mini" type="text" style="margin-bottom:0px;" value="0" id="@item.id"/>
           <button class="btn more"><i class="icon icon-chevron-up"></i></button>
           <button class="btn less"><i class="icon icon-chevron-down"></i></button>
         </div>
       </td>
       <td>
-        @Html.DisplayFor(modelItem => item.title)
+        @item.title
       </td>
       <td>
-        @Html.DisplayFor(modelItem => item.maker)
+        @item.maker
       </td>
       <td>
-        @Html.DisplayFor(modelItem => item.sap)
+        @item.sap
       </td>
     </tr>
   }

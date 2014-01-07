@@ -15,6 +15,20 @@ namespace PTIStockMgmt.Models
 
   public partial class assembly
   {
+
+    public assembly(assembly copy){
+        id = copy.id;
+        name = copy.name;
+        comment = copy.comment;
+        locked = copy.locked;
+        tags = copy.tags;
+        parent = copy.parent;
+        weight = copy.weight;
+        volume = copy.volume;
+        retail = copy.retail;
+        wholesale = copy.wholesale;
+    }
+
     public assembly()
     {
       locked = 0;
